@@ -1,7 +1,7 @@
 import { Command, IMessage, socketObject } from "../types";
 export default class All implements Command {
   command = "!all";
-  pattern = new RegExp("^!all$");
+  pattern = /^!all$/;
   description = "Marca todos os membros do grupo.";
   execute = async (socket: typeof socketObject, message: IMessage) => {
     if (

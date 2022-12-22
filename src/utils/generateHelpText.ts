@@ -1,6 +1,3 @@
-// run through command/index.ts file
-// get command.pattern -> command.description of each
-// write file with all definitions
 import fs from "fs";
 import path from "path";
 import Commands from "../commands";
@@ -12,7 +9,23 @@ export const generateHelpText = async () => {
 
   indexes.forEach((i) => {
     //@ts-ignore
-    textArray.push(`• ${cmds[i].command} ➞  ${cmds[i].description}`);
+    textArray.push(
+      //@ts-ignore
+      `• *${
+        //@ts-ignore
+
+        cmds[i].alias
+          ? //@ts-ignore
+
+            cmds[i].command + " | " + cmds[i].alias
+          : //@ts-ignore
+
+            cmds[i].command
+      }* ➞  ${
+        //@ts-ignore
+        cmds[i].description
+      }`
+    );
   });
 
   textArray = textArray.join("\n");

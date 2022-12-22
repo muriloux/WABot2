@@ -4,10 +4,12 @@ import fs from "fs";
 import path from "path";
 dotenv.config();
 
-fs.writeFileSync(
-  path.resolve(__dirname, "..", "cache", "auth_info_multi.json"),
+if (process.env.AUTH_STATE) {
+  fs.writeFileSync(
+    path.resolve(__dirname, "..", "cache", "auth_info_multi.json"),
 
-  process.env.AUTH_STATE as string
-);
+    process.env.AUTH_STATE as string
+  );
+}
 
 bot();
