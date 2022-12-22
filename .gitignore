@@ -1,6 +1,5 @@
-!cache
-cache/**
+cache/*
+!cache/.gitkeep
 node_modules
 dist
-cache
 .env
