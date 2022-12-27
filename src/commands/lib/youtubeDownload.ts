@@ -58,6 +58,7 @@ export default class Youtube implements Command {
       socket.sendMessage(message.messages[0].key.remoteJid!, {
         audio: { stream: stream },
       });
+      stream.destroy();
     }
   };
 }
