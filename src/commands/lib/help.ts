@@ -1,5 +1,4 @@
 import { Command, IMessage, socketObject } from "../types";
-const helpText = require("../../../cache/helpText.json").text;
 export default class Help implements Command {
   command = "!h";
   alias = "!help";
@@ -12,7 +11,9 @@ export default class Help implements Command {
       )
     ) {
       socket.sendMessage(message.messages[0].key.remoteJid!, {
-        text: helpText || "Error fetching commands text.",
+        text:
+          require("../../../cache/helpText.json").text ||
+          "Error fetching commands text.",
       });
     }
   };
