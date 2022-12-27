@@ -8,20 +8,22 @@ export default class Sticker implements Command {
   description =
     "Cria um sticker de imagem se enviada com !s ou !sticker como legenda.";
   execute = async (socket: typeof socketObject, message: IMessage) => {
-    let m = message.messages[0];
-
     if (
-      m.message?.imageMessage &&
-      m.message.imageMessage.caption?.match(this.pattern)
+      message.messages[0].message?.imageMessage &&
+      message.messages[0].message.imageMessage.caption?.match(this.pattern)
     ) {
-      socket.sendMessage(m.key.remoteJid!, {
+      socket.sendMessage(message.messages[0].key.remoteJid!, {
         react: {
           text: "🐱",
-          key: m.key,
+          key: message.messages[0].key,
         },
       });
 
-      const buffer = await downloadMediaMessage(m, "buffer", {});
+      const buffer = await downloadMediaMessage(
+        message.messages[0],
+        "buffer",
+        {}
+      );
 
       const sticker = new Stkr(buffer as Buffer, {
         pack: "Meow bot",
@@ -31,7 +33,10 @@ export default class Sticker implements Command {
         quality: 50,
       });
 
-      socket.sendMessage(m.key.remoteJid!, await sticker.toMessage());
+      socket.sendMessage(
+        message.messages[0].key.remoteJid!,
+        await sticker.toMessage()
+      );
     }
   };
 }

@@ -1,5 +1,5 @@
 import { Command, IMessage, socketObject } from "../types";
-import ytdl from "ytdl-core";
+//import ytdl from "ytdl-core";
 import fs from "fs";
 
 export default class Help implements Command {
