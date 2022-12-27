@@ -10,6 +10,7 @@ export declare class Command {
   command: string;
   alias?: string;
   pattern: RegExp;
+  parameter?: string;
   description: string;
   execute: typeof executeFunction;
 }

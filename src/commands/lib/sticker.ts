@@ -1,6 +1,7 @@
 import { Command, IMessage, socketObject } from "../types";
 import { Sticker as Stkr, StickerTypes } from "wa-sticker-formatter";
 import { downloadMediaMessage } from "@adiwajshing/baileys";
+import { sendCatReaction } from "../../utils/sendCatReaction";
 export default class Sticker implements Command {
   command = "!s";
   alias = "!sticker";
@@ -12,12 +13,7 @@ export default class Sticker implements Command {
       message.messages[0].message?.imageMessage &&
       message.messages[0].message.imageMessage.caption?.match(this.pattern)
     ) {
-      socket.sendMessage(message.messages[0].key.remoteJid!, {
-        react: {
-          text: "🐱",
-          key: message.messages[0].key,
-        },
-      });
+      sendCatReaction(socket, message);
 
       const buffer = await downloadMediaMessage(
         message.messages[0],
