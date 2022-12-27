@@ -2,17 +2,19 @@ import { Command, IMessage, socketObject } from "../types";
 import { Sticker as Stkr, StickerTypes } from "wa-sticker-formatter";
 import { downloadMediaMessage } from "@adiwajshing/baileys";
 import { sendCatReaction } from "../../utils/sendCatReaction";
+import { markAsRead } from "../../utils/markAsRead";
 export default class Sticker implements Command {
   command = "!s";
   alias = "!sticker";
   pattern = /^(!s|!sticker)$/;
   description =
     "Cria um sticker de imagem se enviada com !s ou !sticker como legenda.";
-  execute = async (socket: typeof socketObject, message: IMessage) => {
+  execute = async (socket: socketObject, message: IMessage) => {
     if (
       message.messages[0].message?.imageMessage &&
       message.messages[0].message.imageMessage.caption?.match(this.pattern)
     ) {
+      markAsRead(socket, message);
       sendCatReaction(socket, message);
 
       const buffer = await downloadMediaMessage(

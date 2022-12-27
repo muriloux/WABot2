@@ -16,5 +16,5 @@ export declare class Command {
 }
 
 export declare function executeFunction(socket: any, message: IMessage): void;
-
-export declare const socketObject: Awaited<ReturnType<typeof connect>>;
+export type socketObject = typeof socketObject;
+declare const socketObject: Awaited<ReturnType<typeof connect>>;

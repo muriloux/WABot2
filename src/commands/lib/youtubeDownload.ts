@@ -3,6 +3,7 @@ import ytdl from "ytdl-core";
 import fs from "fs";
 import path from "path";
 import { sendCatReaction } from "../../utils/sendCatReaction";
+import { markAsRead } from "../../utils/markAsRead";
 
 export default class Youtube implements Command {
   command = "!ytd <link>";
@@ -10,12 +11,13 @@ export default class Youtube implements Command {
     /!ytd(?= https:\/\/((www.youtube|youtube).com|(www.youtu.be|youtu.be))\/\w+)/;
   parameter: string;
   description = "Baixa audio do Youtube.";
-  execute = async (socket: typeof socketObject, message: IMessage) => {
+  execute = async (socket: socketObject, message: IMessage) => {
     if (
       message.messages[0].message?.extendedTextMessage?.text?.match(
         this.pattern
       )
     ) {
+      markAsRead(socket, message);
       sendCatReaction(socket, message);
       this.parameter =
         message.messages[0].message?.extendedTextMessage?.text.replace(
@@ -51,23 +53,11 @@ export default class Youtube implements Command {
         return;
       }
 
-      ytdl(url, { format: format }).pipe(
-        fs.createWriteStream(path.resolve(filePath)).on("close", () => {
-          socket
-            .sendMessage(message.messages[0].key.remoteJid!, {
-              audio: { url: filePath },
-              mimetype: "audio/mp3",
-              force: true,
-            })
-            .then((err) => {
-              fs.unlink(filePath, (err) => {
-                err
-                  ? console.log("Error removing temp video file: \n" + err)
-                  : console.log("Temp video file removed.");
-              });
-            });
-        })
-      );
+      let stream = ytdl(url, { format: format });
+
+      socket.sendMessage(message.messages[0].key.remoteJid!, {
+        audio: { stream: stream },
+      });
     }
   };
 }
