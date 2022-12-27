@@ -1,4 +1,4 @@
-import ytdl from "ytdl-core";
+//import ytdl from "ytdl-core";
 import fs from "fs";
 
 const url = "https://www.youtube.com/watch?v=kuvST3wGCG8";
