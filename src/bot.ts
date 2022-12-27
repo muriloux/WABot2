@@ -16,14 +16,4 @@ export default async () => {
     cmds.all.execute(socket, message);
     cmds.sticker.execute(socket, message);
   });
-
-  socket.ev.on("connection.update", (update) => {
-    update.isOnline && socket.updateProfileStatus(onlineStatus);
-  });
-
-  // process.on("SIGINT", function () {
-  //   socket.updateProfileStatus(offlineStatus);
-
-  //   process.exit();
-  // });
 };
