@@ -1,14 +1,14 @@
-import { DisconnectReason } from "@adiwajshing/baileys";
-import makeWASocket from "@adiwajshing/baileys/lib/Socket";
-import { useSingleFileAuthState } from "@adiwajshing/baileys/lib/Utils";
 import path from "path";
 import fs from "fs";
-import { Boom } from "@hapi/boom";
 import { generateHelpText } from "./utils/generateHelpText";
+import makeWASocket from "@adiwajshing/baileys/lib/Socket";
+import { DisconnectReason } from "@adiwajshing/baileys";
+import { useMultiFileAuthState } from "@adiwajshing/baileys/lib/Utils";
+import { Boom } from "@hapi/boom";
 
 export const connect = async () => {
-  const { state, saveState } = useSingleFileAuthState(
-    path.resolve(__dirname, "..", "cache", "auth_info_multi.json")
+  const { state, saveCreds } = await useMultiFileAuthState(
+    path.resolve(__dirname, "..", "cache", "auth_info_multi")
   );
 
   if (!fs.existsSync(path.resolve(__dirname, "..", "cache", "helpText.json"))) {
@@ -34,7 +34,7 @@ export const connect = async () => {
     }
   });
 
-  socket.ev.on("creds.update", saveState);
+  socket.ev.on("creds.update", saveCreds);
 
   return socket;
 };
