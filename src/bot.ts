@@ -21,9 +21,9 @@ export default async () => {
   //   update.isOnline && socket.updateProfileStatus(onlineStatus);
   // });
 
-  process.on("SIGINT", function () {
-    socket.updateProfileStatus(offlineStatus);
+  // process.on("SIGINT", function () {
+  //   socket.updateProfileStatus(offlineStatus);
 
-    process.exit();
-  });
+  //   process.exit();
+  // });
 };
